@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "brickshift"
+version = "0.1.0"
+description = ""
+authors = ["m0xai <keremzopcuk@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^4.2.6"
+djangorestframework = "^3.14.0"
+icalendar = "^5.0.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
