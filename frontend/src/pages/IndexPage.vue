@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
-    <create-event-form :events="events" />
-    <event-table :events="events" />
+    <create-event-form @pushEvent="handlePushEvent($event)" :events="events" />
+    <event-table  :events="events" />
   </q-page>
 </template>
 
@@ -12,12 +12,10 @@ import CreateEventForm from "components/CreateEventForm.vue";
 
 defineComponent({name: "IndexPage"})
 
+function handlePushEvent(input) {
+  console.log("Pusheda", input)
+}
+
 const events = [
-  {
-    name: "Kerem",
-    date: `${new Date().getDay()}/${new Date().getMonth()}`,
-    start: `${new Date().getHours()}:${new Date().getMinutes()}`,
-    end: `${new Date().getHours()}:${new Date().getMinutes()}`,
-  }
 ]
 </script>

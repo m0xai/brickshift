@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import { data } from "autoprefixer";
 
 defineProps({
   events: {
@@ -10,6 +11,13 @@ defineProps({
 
 function handleCreateEvent() {
   // Emit values to parent
+  const event = {
+    name: name.value,
+    data: date.value,
+    start: start.value,
+    end: end.value
+  }
+  emit("pushEvent", event)
   console.log("Creation submitted")
 }
 
@@ -17,6 +25,8 @@ const name = ref("")
 const date = ref("2023/11/21")
 const start = ref('10:00')
 const end = ref("11:00")
+
+const emit = defineEmits(["pushEvent"])
 
 </script>
 
@@ -29,6 +39,7 @@ const end = ref("11:00")
       fill
       v-model="name"
       label="Employee Name"
+      :rules="[val => !!val || 'Field is required']"
     />
     <q-input filled v-model="date" mask="date" :rules="['date']" label="Date">
       <template v-slot:append>
