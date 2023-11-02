@@ -6,6 +6,7 @@ from recurrence.fields import RecurrenceField
 from brickshift.base.models import BaseModel
 
 class EventFeed(ICalFeed, BaseModel):
+    # Ein Kalender Objekt
     product_id = '-//example.com//Example//EN'
     timezone = 'UTC'
 
