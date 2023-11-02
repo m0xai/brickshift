@@ -2,13 +2,12 @@
 name = "brickshift"
 version = "0.1.0"
 description = ""
-authors = ["m0xai <keremzopcuk@gmail.com>"]
+authors = ["Kerem Zopcuk <keremzopcuk@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Django = "^4.2.6"
-djangorestframework = "^3.14.0"
+Django = "^4.2.7"
 icalendar = "^5.0.10"
 django-ical = "^1.9.2"
 
