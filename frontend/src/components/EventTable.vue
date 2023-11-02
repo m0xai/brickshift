@@ -11,14 +11,13 @@ const columns = [
   {name: "end", label: "End", field: "end"}
 ]
 
-const rows = [
-  {
-    name: "Kerem",
-    date: `${new Date().getDay()}/${new Date().getMonth()}`,
-    start: `${new Date().getHours()}:${new Date().getMinutes()}`,
-    end: `${new Date().getHours()}:${new Date().getMinutes()}`,
+defineProps({
+  events: {
+    type: Array,
+    required: true
   }
-]
+})
+
 </script>
 
 <template>
@@ -32,7 +31,7 @@ const rows = [
           <q-table
             title="Schicht"
             :columns="columns"
-            :rows="rows"
+            :rows="events"
             row-key="name"
           />
         </div>

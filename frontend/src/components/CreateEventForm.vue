@@ -1,12 +1,20 @@
 <script setup>
 import { ref } from "vue";
 
+defineProps({
+  events: {
+    type: Array,
+    required: true
+  }
+})
+
 function handleCreateEvent() {
+  // Emit values to parent
   console.log("Creation submitted")
 }
 
 const name = ref("")
-const date = ref(new Date())
+const date = ref("2023/11/21")
 const start = ref('10:00')
 const end = ref("11:00")
 
@@ -14,7 +22,9 @@ const end = ref("11:00")
 
 <template>
   <q-form
-  @submit="handleCreateEvent">
+  @submit="handleCreateEvent"
+  class="flex"
+  >
     <q-input
       fill
       v-model="name"
@@ -24,7 +34,7 @@ const end = ref("11:00")
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-model="date">
+            <q-date v-model="date" today-btn>
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
