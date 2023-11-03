@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import EventTable from "components/EventTable.vue";
 import CreateEventForm from "components/CreateEventForm.vue";
 import axios from "axios";
@@ -18,8 +18,12 @@ defineComponent({name: "IndexPage"})
 
 function handlePushEvent(input) {
   events.value.push(input)
-  console.log("Pusheda", input)
+    axios.post("http://localhost:8000/calgen/events/", input)
+        .then((resp) => {
+          console.log("Event saved: ", input)
+        })
 }
+
 
 const events = ref([])
 
