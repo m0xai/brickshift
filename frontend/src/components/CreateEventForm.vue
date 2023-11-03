@@ -13,16 +13,15 @@ function handleCreateEvent() {
   // Emit values to parent
   const event = {
     name: name.value,
-    data: date.value,
+    date: date.value,
     start: start.value,
     end: end.value
   }
   emit("pushEvent", event)
-  console.log("Creation submitted")
 }
 
 const name = ref("")
-const date = ref("")
+const date = ref("2023-11-03")
 const start = ref('10:00')
 const end = ref("11:00")
 
@@ -41,11 +40,11 @@ const emit = defineEmits(["pushEvent"])
       label="Employee Name"
       :rules="[val => !!val || 'Field is required']"
     />
-    <q-input filled v-model="date" mask="date" :rules="['date']" label="Date">
+    <q-input filled v-model="date"  label="Date">
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-date v-model="date" today-btn>
+            <q-date v-model="date" mask="YYYY-MM-DD" today-btn first-day-of-week="1">
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
