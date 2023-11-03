@@ -1,8 +1,10 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center column">
     <create-event-form @pushEvent="handlePushEvent($event)" :events="events" />
-    <event-table  :events="events" />
-    <q-btn @click="handleEventFeedSubmit">Create Calendar</q-btn>
+    <event-table @deleteEvent="handleEventDelete($event)" :events="events" />
+    <q-btn @click="handleEventFeedDownload" color="primary" class="q-mt-md" :disable="!events.length > 0">Download
+      Calendar (
+      .ics)</q-btn>
   </q-page>
 </template>
 
