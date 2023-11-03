@@ -5,5 +5,6 @@ from .views import EventFeed
 
 urlpatterns = [
     path("", views.index, name="index"),
+    path("create-event-feed/", views.EventView.as_view(), name="bulk-event-create"),
     re_path(r'^latest/feed.ics$', EventFeed()),
 ]
