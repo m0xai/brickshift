@@ -21,13 +21,29 @@ function handlePushEvent(input) {
 
 const events = ref([])
 
-function handleEventFeedSubmit() {
+
+function handleEventFeedDownload() {
   if(!events.value.length > 0) {
     return
   }
-  axios.post("http://localhost:8000/calgen/create-event-feed/", events.value)
-    .then((resp) => {
-      console.log("Rsp: ", resp)
-    })
+
+  const method = 'GET';
+  const url = 'http://localhost:8000/calgen/latest/feed.ics';
+  const fileName = `feed_${new Date().toISOString()}.ics`
+  axios
+      .request({
+        url,
+        method,
+        responseType: 'blob',
+      })
+      .then(({ data }) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([data]));
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      });
 }
 </script>
