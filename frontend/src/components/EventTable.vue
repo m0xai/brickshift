@@ -1,4 +1,6 @@
 <script setup>
+import axios from "axios";
+
 const columns = [
   {
     name: "name",
@@ -8,7 +10,8 @@ const columns = [
   },
   {name: "date", label: "Date", field: "date"},
   {name: "start", label: "Start", field: "start"},
-  {name: "end", label: "End", field: "end"}
+  {name: "end", label: "End", field: "end"},
+  { name: 'actions', label: 'action' }
 ]
 
 defineProps({
@@ -17,6 +20,13 @@ defineProps({
     required: true
   }
 })
+
+const emit = defineEmits(["deleteEvent"])
+function handleEventDelete(event) {
+    axios.delete("http://localhost:8000/calgen/events/" + event.id + "/").then((resp) => {
+        emit("deleteEvent", event)
+    })
+}
 
 </script>
 
@@ -32,8 +42,13 @@ defineProps({
             title="Schicht"
             :columns="columns"
             :rows="events"
-            row-key="name"
-          />
+            row-key="name">
+              <template v-slot:body-cell-actions="props">
+                  <q-td :props="props">
+                      <q-btn icon="delete" @click="handleEventDelete(props.row)"></q-btn>
+                  </q-td>
+              </template>
+          </q-table>
         </div>
     </q-card>
 
