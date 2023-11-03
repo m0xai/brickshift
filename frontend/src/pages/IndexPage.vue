@@ -27,6 +27,18 @@ function handlePushEvent(input) {
 
 const events = ref([])
 
+onMounted(() => {
+  axios.get("http://localhost:8000/calgen/events/")
+    .then((resp) => {
+      events.value = resp.data
+      console.log("Rsp: ", resp)
+    })
+})
+
+
+function handleEventDelete(event) {
+    events.value = events.value.filter(v => v.id !== event.id)
+}
 
 function handleEventFeedDownload() {
   if(!events.value.length > 0) {
