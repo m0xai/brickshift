@@ -11,7 +11,7 @@ const columns = [
   {name: "date", label: "Date", field: "date"},
   {name: "start", label: "Start", field: "start"},
   {name: "end", label: "End", field: "end"},
-  { name: 'actions', label: 'action' }
+  { name: 'actions', label: 'Action(s)' }
 ]
 
 defineProps({
@@ -33,9 +33,11 @@ function handleEventDelete(event) {
 <template>
   <div>
     <q-card>
-      <h4 class="text-h4">Schichtplan</h4>
       <q-card-section>
-        <p>Aliqua laborum nulla sunt nulla laboris duis ut. Ipsum reprehenderit sint nulla veniam occaecat reprehenderit magna incididunt sint.</p>
+        <h4 class="text-h4">Schichtplan</h4>
+        <p>All shift schedules are displayed in the table below. To add a new shift schedule, please utilize the form
+          above. If you wish to delete a schedule, simply click on the trash icon located on the right side of a
+          shift entry.</p>
       </q-card-section>
         <div class="q-pa-md">
           <q-table

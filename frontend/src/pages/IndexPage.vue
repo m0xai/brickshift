@@ -31,7 +31,6 @@ onMounted(() => {
   axios.get("http://localhost:8000/calgen/events/")
     .then((resp) => {
       events.value = resp.data
-      console.log("Rsp: ", resp)
     })
 })
 
