@@ -13,20 +13,27 @@ from .serializers import EventSerializer
 def index(request):
     return HttpResponse("Hello World")
 
-class EventView(generics.ListCreateAPIView, mixins.ListModelMixin, generics.GenericAPIView):
+class EventList(generics.ListCreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+class EventViewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+
+class EventViewBulk(generics.ListCreateAPIView, ):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
     def create(self, request, *args, **kwargs):
-        #! This overrides create for multiple event objects and we should clear all events before create EventFeed
         serializer = self.get_serializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
 
         try:
-            self.perform_create(serializer)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class EventFeed(ICalFeed):
