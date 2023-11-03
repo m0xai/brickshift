@@ -1,7 +1,7 @@
 import datetime
 from django.http import HttpResponse
 from django_ical.views import ICalFeed
-from rest_framework import generics, status
+from rest_framework import generics, status, mixins
 from rest_framework.response import Response
 
 from .models import Event
@@ -13,7 +13,7 @@ from .serializers import EventSerializer
 def index(request):
     return HttpResponse("Hello World")
 
-class EventView(generics.ListCreateAPIView):
+class EventView(generics.ListCreateAPIView, mixins.ListModelMixin, generics.GenericAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
