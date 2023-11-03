@@ -22,7 +22,7 @@ function handleCreateEvent() {
 }
 
 const name = ref("")
-const date = ref("2023/11/21")
+const date = ref("")
 const start = ref('10:00')
 const end = ref("11:00")
 
@@ -59,7 +59,7 @@ const emit = defineEmits(["pushEvent"])
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-time v-model="end">
+            <q-time v-model="start" format24h>
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
@@ -73,7 +73,7 @@ const emit = defineEmits(["pushEvent"])
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-            <q-time v-model="end">
+            <q-time v-model="end" format24h>
               <div class="row items-center justify-end">
                 <q-btn v-close-popup label="Close" color="primary" flat />
               </div>
