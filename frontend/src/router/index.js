@@ -1,6 +1,7 @@
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
+import { useAuthStore } from "boot/auth.store";
 
 /*
  * If not building with SSR mode, you can
@@ -26,5 +27,16 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
+  const authStore = useAuthStore()
+
+  Router.beforeEach(async (to, from) => {
+    if (
+      !authStore.token &&
+      to.name !== 'login'
+    ) {
+      // redirect the user to the login page
+      return { name: 'login' }
+    }
+  })
   return Router
 })
