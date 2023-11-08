@@ -1,11 +1,26 @@
 <script setup>
 import { defineComponent, ref } from "vue";
+import axios from "axios";
+import { useAuthStore } from "boot/auth.store";
 
 defineComponent({name: "LoginPage"})
 const username = ref("")
 const password = ref("")
 
+const authStore = useAuthStore();
+
 // Add logic to implement user's login
+function submitLogin() {
+  if(username.value && password.value) {
+    axios.post("http://127.0.0.1:8000/api/login/", {
+      "username": username.value,
+      "password": password.value
+    }, {}).then((response) => {
+      authStore.setToken(response.data.token)
+    })
+  }
+}
+
 </script>
 
 <template>
@@ -21,7 +36,7 @@ const password = ref("")
           <a href="#" class="q-my-md" >Password Vergessen?</a>
           <q-card-actions class="q-my-lg">
             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Submit" type="submit" color="primary" @click="submitLogin"/>
           </q-card-actions>
         </q-card-section>
       </q-card>
