@@ -1,3 +1,25 @@
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from "stores/auth";
+import useRouter from 'src/router';
+import { api } from 'src/boot/axios';
+import LogoutBtn from "components/LogoutBtn.vue";
+
+const router = useRouter()
+const leftDrawerOpen = ref(false)
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
+api.interceptors.request.use((config) => {
+  if(config.url.includes("login")) {
+    return config;
+  }
+  const authStore = useAuthStore();
+  config.headers.Authorization = "Token " + authStore.token;
+  return config
+});
+</script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
@@ -16,8 +38,8 @@
         </q-toolbar-title>
 
         <div>
-          <q-btn flat @click="handleLogout()">Logout</q-btn>
-          Quasar v{{ $q.version }}</div>
+          <LogoutBtn />
+          <span>Quasar v{{ $q.version }}</span></div>
       </q-toolbar>
     </q-header>
 
@@ -49,30 +71,3 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { useAuthStore } from "../stores/auth";
-
-import * as userMixin from "../mixins/userMixin"
-import router from 'src/router';
-import { api } from 'src/boot/axios';
-
-
-const leftDrawerOpen = ref(false)
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
-api.interceptors.request.use((config) => {
-  if(config.url.includes("login")) {
-   return config;
-  }
-  const authStore = useAuthStore();
-  config.headers.Authorization = "Token " + authStore.token;
-  return config
-});
-
-function handleLogout() {
-  userMixin.logOut()
-}
-
-</script>
