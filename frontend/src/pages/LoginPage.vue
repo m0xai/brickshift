@@ -1,14 +1,15 @@
 <script setup>
 import { defineComponent, ref } from "vue";
-import { useAuthStore } from "../stores/auth";
+import { useAuthStore } from "stores/auth"
 import { api } from "src/boot/axios";
-import router from "src/router";
+import { useRouter } from 'vue-router';
 
 defineComponent({name: "LoginPage"})
+const router = useRouter()
+const authStore = useAuthStore();
+
 const username = ref("")
 const password = ref("")
-
-const authStore = useAuthStore();
 
 // Add logic to implement user's login
 function submitLogin() {
@@ -18,7 +19,7 @@ function submitLogin() {
       "password": password.value
     }, {}).then((response) => {
       authStore.setToken(response.data.token)
-      router.push({name: "home"})
+      router.push("/#/home")
     })
   }
 }
