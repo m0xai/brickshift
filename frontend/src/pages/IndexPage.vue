@@ -12,13 +12,13 @@
 import { defineComponent, onMounted, ref } from "vue";
 import EventTable from "components/EventTable.vue";
 import CreateEventForm from "components/CreateEventForm.vue";
-import axios from "axios";
+import { api } from "src/boot/axios";
 
 defineComponent({name: "IndexPage"})
 
 function handlePushEvent(input) {
   events.value.push(input)
-    axios.post("http://localhost:8000/calgen/events/", input)
+    api.post("calgen/events/", input)
         .then((resp) => {
           console.log("Event saved: ", input)
         })
@@ -28,7 +28,7 @@ function handlePushEvent(input) {
 const events = ref([])
 
 onMounted(() => {
-  axios.get("http://localhost:8000/calgen/events/")
+  api.get("calgen/events/")
     .then((resp) => {
       events.value = resp.data
     })

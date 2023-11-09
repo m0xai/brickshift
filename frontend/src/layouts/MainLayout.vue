@@ -49,16 +49,16 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from "axios";
 import { useAuthStore } from "../stores/auth";
 
+import { api } from 'src/boot/axios';
 
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 
-axios.interceptors.request.use((config) => {
+api.interceptors.request.use((config) => {
   if(config.url.includes("login")) {
    return config;
   }

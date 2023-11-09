@@ -1,5 +1,6 @@
 <script setup>
 import axios from "axios";
+import { api } from "src/boot/axios";
 
 const columns = [
   {
@@ -23,7 +24,7 @@ defineProps({
 
 const emit = defineEmits(["deleteEvent"])
 function handleEventDelete(event) {
-    axios.delete("http://localhost:8000/calgen/events/" + event.id + "/").then((resp) => {
+    api.delete("calgen/events/" + event.id + "/").then((resp) => {
         emit("deleteEvent", event)
     })
 }

@@ -1,7 +1,7 @@
 <script setup>
 import { defineComponent, ref } from "vue";
-import axios from "axios";
 import { useAuthStore } from "../stores/auth";
+import { api } from "src/boot/axios";
 
 defineComponent({name: "LoginPage"})
 const username = ref("")
@@ -12,7 +12,7 @@ const authStore = useAuthStore();
 // Add logic to implement user's login
 function submitLogin() {
   if(username.value && password.value) {
-    axios.post("http://127.0.0.1:8000/api/login/", {
+    api.post("api/login/", {
       "username": username.value,
       "password": password.value
     }, {}).then((response) => {
