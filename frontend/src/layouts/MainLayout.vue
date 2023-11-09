@@ -15,7 +15,9 @@
          BrickShift
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>
+          <q-btn flat @click="handleLogout()">Logout</q-btn>
+          Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -51,13 +53,15 @@
 import { ref } from 'vue'
 import { useAuthStore } from "../stores/auth";
 
+import * as userMixin from "../mixins/userMixin"
+import router from 'src/router';
 import { api } from 'src/boot/axios';
+
 
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
-
 api.interceptors.request.use((config) => {
   if(config.url.includes("login")) {
    return config;
@@ -66,5 +70,9 @@ api.interceptors.request.use((config) => {
   config.headers.Authorization = "Token " + authStore.token;
   return config
 });
+
+function handleLogout() {
+  userMixin.logOut()
+}
 
 </script>

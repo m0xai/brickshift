@@ -2,6 +2,7 @@
 import { defineComponent, ref } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { api } from "src/boot/axios";
+import router from "src/router";
 
 defineComponent({name: "LoginPage"})
 const username = ref("")
@@ -17,6 +18,7 @@ function submitLogin() {
       "password": password.value
     }, {}).then((response) => {
       authStore.setToken(response.data.token)
+      router.push({name: "home"})
     })
   }
 }
