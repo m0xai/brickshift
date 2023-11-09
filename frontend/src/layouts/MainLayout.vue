@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue'
 import axios from "axios";
-import { useAuthStore } from "boot/auth.store";
+import { useAuthStore } from "../stores/auth";
 
 
 const leftDrawerOpen = ref(false)

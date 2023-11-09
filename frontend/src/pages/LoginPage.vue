@@ -1,7 +1,7 @@
 <script setup>
 import { defineComponent, ref } from "vue";
 import axios from "axios";
-import { useAuthStore } from "boot/auth.store";
+import { useAuthStore } from "../stores/auth";
 
 defineComponent({name: "LoginPage"})
 const username = ref("")
