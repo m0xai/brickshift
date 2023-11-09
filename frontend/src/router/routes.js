@@ -8,9 +8,11 @@ const routes = [
     ]
   },
   {
-    name: "login",
     path: "/login",
-    component: () => import("pages/LoginPage.vue")
+    component: () => import("layouts/LoginLayout.vue"),
+    children: [
+      { name: "login", path: '', component: () => import('pages/LoginPage.vue') }
+    ]
   },
   {
     path: "/user-management",
