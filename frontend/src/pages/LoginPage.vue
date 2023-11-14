@@ -37,7 +37,7 @@ function submitLogin() {
         <q-card-section>
           <q-form>
             <q-input v-model="username" label="Username" class="q-my-md" />
-            <q-input v-model="password" label="Password" class="q-my-md" />
+            <q-input v-model="password"  type="password" label="Password" class="q-my-md" />
           </q-form>
           <a href="#" class="q-my-md" >Password Vergessen?</a>
           <q-card-actions class="q-my-lg">
