@@ -1,11 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from "stores/auth";
 import useRouter from 'src/router';
 import { api } from 'src/boot/axios';
 import LogoutBtn from "components/LogoutBtn.vue";
+import { useQuasar } from "quasar";
 
+const $q = useQuasar()
 const router = useRouter()
+
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
@@ -18,6 +21,14 @@ api.interceptors.request.use((config) => {
   config.headers.Authorization = "Token " + authStore.token;
   return config
 });
+
+function toggleDarkMode() {
+  $q.dark.toggle();
+}
+
+const modeSwitchIcon = computed(() => {
+  return $q.dark.isActive ? "light_mode" : "dark_mode"
+})
 </script>
 
 <template>
@@ -39,7 +50,8 @@ api.interceptors.request.use((config) => {
 
         <div>
           <LogoutBtn />
-          <span>Quasar v{{ $q.version }}</span></div>
+          <q-btn @click="toggleDarkMode()" flat :icon="modeSwitchIcon" />
+        </div>
       </q-toolbar>
     </q-header>
 
