@@ -3,8 +3,10 @@ import { defineComponent, ref } from "vue";
 import { useAuthStore } from "stores/auth"
 import { api } from "src/boot/axios";
 import { useRouter } from 'vue-router';
+import { useQuasar } from "quasar";
 
 defineComponent({name: "LoginPage"})
+const $q = useQuasar();
 const router = useRouter()
 const authStore = useAuthStore();
 
@@ -19,7 +21,8 @@ function submitLogin() {
       "password": password.value
     }, {}).then((response) => {
       authStore.setToken(response.data.token)
-      router.push("/#/home")
+      router.push("/")
+      $q.notify({message: "You have successfully logged in!", position: "top-right", color: "positive"})
     })
   }
 }
