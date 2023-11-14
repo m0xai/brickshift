@@ -1,13 +1,15 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useAuthStore } from "stores/auth";
 import useRouter from 'src/router';
 import { api } from 'src/boot/axios';
 import LogoutBtn from "components/LogoutBtn.vue";
 import { useQuasar } from "quasar";
+import { useSettingsStore } from "stores/settings";
 
 const $q = useQuasar()
 const router = useRouter()
+const settingsStore = useSettingsStore()
 
 const leftDrawerOpen = ref(false)
 function toggleLeftDrawer() {
@@ -23,8 +25,18 @@ api.interceptors.request.use((config) => {
 });
 
 function toggleDarkMode() {
-  $q.dark.toggle();
+  settingsStore.toggle();
 }
+
+watch(() => settingsStore.isDark, () => {
+  $q.dark.toggle();
+});
+
+onMounted(() => {
+  if(settingsStore.isDark) {
+    $q.dark.set(true)
+  }
+})
 
 const modeSwitchIcon = computed(() => {
   return $q.dark.isActive ? "light_mode" : "dark_mode"

@@ -7,12 +7,13 @@ const columns = [
     name: "name",
     label: "Name",
     required: false,
-    field: "name"
+    field: "name",
+    align: "left"
   },
-  {name: "date", label: "Date", field: "date"},
-  {name: "start", label: "Start", field: "start"},
-  {name: "end", label: "End", field: "end"},
-  { name: 'actions', label: 'Action(s)' }
+  {name: "date", label: "Date", field: "date", align: "center"},
+  {name: "start", label: "Start", field: "start", align: "center"},
+  {name: "end", label: "End", field: "end", align: "center"},
+  { name: 'actions', label: 'Action(s)', align: "center"}
 ]
 
 defineProps({
@@ -48,6 +49,7 @@ function handleEventDelete(event) {
             row-key="name">
               <template v-slot:body-cell-actions="props">
                   <q-td :props="props">
+                    <q-btn icon="edit" @click="handleEventDelete(props.row)"></q-btn>
                       <q-btn icon="delete" @click="handleEventDelete(props.row)"></q-btn>
                   </q-td>
               </template>
