@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, defineProps } from "vue";
+import { ref, defineProps } from "vue";
 
 const persistent = ref(false);
 
@@ -12,15 +12,21 @@ const inputDate = ref(new Date());
 const inputStart = ref("00:00:00");
 const inputEnd = ref("00:00");
 
-onMounted(() => {
+function setFieldValues() {
   inputName.value = props.eventItem.name;
   inputDate.value = props.eventItem.date;
   inputStart.value = props.eventItem.start;
   inputEnd.value = props.eventItem.end;
-});
+}
+function resetForm() {
+  inputName.value = ""
+  inputDate.value = new Date()
+  inputStart.value = "00:00:00"
+  inputEnd.value = "00:00"
+}
 
 function requiredRule(val) {
-  return !!val || "This field is requried";
+  return !!val || "This field is required";
 }
 
 function dayRule(val) {
@@ -46,6 +52,8 @@ function timeRule(val) {
     persistent
     transition-show="scale"
     transition-hide="scale"
+    @hide="resetForm()"
+    @show="setFieldValues()"
   >
     <q-card class="text-white" style="width: 400px">
       <q-card-section class="bg-primary">
