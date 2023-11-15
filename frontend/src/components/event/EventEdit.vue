@@ -26,7 +26,7 @@ function requiredRule(val) {
 function dayRule(val) {
   return (
     /^-?[\d]+-[0-1]\d-[0-3]\d$/.test(val) ||
-    "You should provide a valid date value, like 2023/11/15"
+    "You should provide a valid date value, like 2023-11-15 (YYYY-MM-DD)"
   );
 }
 
@@ -59,7 +59,7 @@ function timeRule(val) {
           <q-input
             filled
             v-model="inputDate"
-            mask="date"
+            mask="####-##-##"
             :rules="[requiredRule, dayRule]"
           >
             <template v-slot:append>
