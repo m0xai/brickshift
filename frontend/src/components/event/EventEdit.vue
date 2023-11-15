@@ -1,5 +1,6 @@
 <script setup>
 import { ref, defineProps } from "vue";
+import * as EventValidator from "src/services/validators/event-validator"
 
 const persistent = ref(false);
 
@@ -31,7 +32,7 @@ function resetForm() {
 </script>
 
 <template>
-  <q-btn @click="persistent = true" icon="edit" />
+  <q-btn fab-mini @click="persistent = true" icon="edit" />
 
   <q-dialog
     v-model="persistent"
@@ -41,9 +42,11 @@ function resetForm() {
     @hide="resetForm()"
     @show="setFieldValues()"
   >
-    <q-card class="text-white" style="width: 400px">
-      <q-card-section class="bg-primary">
+    <q-card class="text-white" style="width: 500px">
+      <q-card-section class="bg-primary flex">
         <div class="text-h6">Edit Schicht fuer {{ props.eventItem.name }}</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
       <q-card-section>
@@ -121,8 +124,8 @@ function resetForm() {
         </q-form>
       </q-card-section>
 
-      <q-card-actions align="right">
-        <q-btn flat label="Cancel" v-close-popup class="text-negative" />
+      <q-card-actions class="flex justify-between q-mx-sm">
+        <q-btn flat label="Cancel" class="" color="primary" v-close-popup />
         <q-btn label="Save" color="primary" class="text-primary" />
       </q-card-actions>
     </q-card>

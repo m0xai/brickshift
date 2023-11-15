@@ -63,7 +63,7 @@ function handleEventDelete(event) {
                 </q-td>
                 <q-td key="actions" :props="props">
                   <EventEdit :event-item="(props.row)" />
-                  <q-btn icon="delete" @click="handleEventDelete(props.row)"></q-btn>
+                  <q-btn  fab-mini icon="delete" @click="handleEventDelete(props.row)"></q-btn>
                 </q-td>
               </q-tr>
               <q-tr v-show="props.expand" :props="props">
