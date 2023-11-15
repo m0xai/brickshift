@@ -28,23 +28,6 @@ function resetForm() {
   inputEnd.value = "00:00";
 }
 
-function requiredRule(val) {
-  return !!val || "This field is required";
-}
-
-function dayRule(val) {
-  return (
-    /^-?[\d]+-[0-1]\d-[0-3]\d$/.test(val) ||
-    "You should provide a valid date value, like 2023-11-15 (YYYY-MM-DD)"
-  );
-}
-
-function timeRule(val) {
-  return (
-    /^([0-1]?\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/.test(val) ||
-    "You should provide a valid time value, like 14:30"
-  );
-}
 </script>
 
 <template>
@@ -71,7 +54,7 @@ function timeRule(val) {
             filled
             v-model="inputDate"
             mask="####-##-##"
-            :rules="[requiredRule, dayRule]"
+            :rules="[EventValidator.requiredRule, EventValidator.dayRule]"
           >
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
@@ -94,7 +77,7 @@ function timeRule(val) {
             filled
             v-model="inputStart"
             mask="time"
-            :rules="[requiredRule, timeRule]"
+            :rules="[EventValidator.requiredRule, EventValidator.timeRule]"
           >
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
@@ -117,7 +100,7 @@ function timeRule(val) {
             filled
             v-model="inputEnd"
             mask="time"
-            :rules="[requiredRule, timeRule]"
+            :rules="[EventValidator.requiredRule, EventValidator.timeRule]"
           >
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
