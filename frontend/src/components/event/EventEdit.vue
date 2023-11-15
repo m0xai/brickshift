@@ -8,21 +8,24 @@ defineOptions({ name: "EventEdit" });
 const props = defineProps({ eventItem: {} });
 
 const inputName = ref("");
+const inputDescription = ref("");
 const inputDate = ref(new Date());
 const inputStart = ref("00:00:00");
 const inputEnd = ref("00:00");
 
 function setFieldValues() {
   inputName.value = props.eventItem.name;
+  inputDescription.value = props.eventItem.description;
   inputDate.value = props.eventItem.date;
   inputStart.value = props.eventItem.start;
   inputEnd.value = props.eventItem.end;
 }
 function resetForm() {
-  inputName.value = ""
-  inputDate.value = new Date()
-  inputStart.value = "00:00:00"
-  inputEnd.value = "00:00"
+  inputName.value = "";
+  inputDescription.value = "";
+  inputDate.value = new Date();
+  inputStart.value = "00:00:00";
+  inputEnd.value = "00:00";
 }
 
 function requiredRule(val) {
@@ -63,7 +66,7 @@ function timeRule(val) {
       <q-card-section>
         <q-form>
           <q-input v-model="inputName" class="q-mb-md" filled label="Name" />
-
+          <q-input v-model="inputDescription" label="Description" type="textarea" filled class="q-mb-md"/>
           <q-input
             filled
             v-model="inputDate"
