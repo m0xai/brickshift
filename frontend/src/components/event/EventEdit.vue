@@ -14,19 +14,27 @@ const inputStart = ref("00:00:00");
 const inputEnd = ref("00:00");
 const isDialogOpen = ref(false);
 
+const editFormFields = ref({
+  name:  "",
+  description: "",
+  date: new Date(),
+  start: "00:00:00",
+  end:  "00:00:00"
+})
+
 function setFieldValues() {
-  inputName.value = props.eventItem.name;
-  inputDescription.value = props.eventItem.description;
-  inputDate.value = props.eventItem.date;
-  inputStart.value = props.eventItem.start;
-  inputEnd.value = props.eventItem.end;
+  editFormFields.value.name = props.eventItem.name;
+  editFormFields.value.description = props.eventItem.description;
+  editFormFields.value.date = props.eventItem.date;
+  editFormFields.value.start = props.eventItem.start;
+  editFormFields.value.end = props.eventItem.end;
 }
 function resetForm() {
-  inputName.value = "";
-  inputDescription.value = "";
-  inputDate.value = new Date();
-  inputStart.value = "00:00:00";
-  inputEnd.value = "00:00";
+  editFormFields.value.name = "";
+  editFormFields.value.description = "";
+  editFormFields.value.date = new Date();
+  editFormFields.value.start = "00:00:00";
+  editFormFields.value.end = "00:00";
 }
 
 </script>
@@ -50,12 +58,12 @@ function resetForm() {
       </q-card-section>
 
       <q-card-section>
-        <q-form>
-          <q-input v-model="inputName" class="q-mb-md" filled label="Name" />
-          <q-input v-model="inputDescription" label="Description" type="textarea" filled class="q-mb-md"/>
+        <q-form ref="qform">
+          <q-input v-model="editFormFields.name" class="q-mb-md" filled label="Name" />
+          <q-input v-model="editFormFields.description" label="Description" type="textarea" filled class="q-mb-md"/>
           <q-input
             filled
-            v-model="inputDate"
+            v-model="editFormFields.date"
             mask="####-##-##"
             :rules="[EventValidator.requiredRule, EventValidator.dayRule]"
           >
@@ -66,7 +74,7 @@ function resetForm() {
                   transition-show="scale"
                   transition-hide="scale"
                 >
-                  <q-date v-model="inputDate">
+                  <q-date v-model="editFormFields.date">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -78,7 +86,7 @@ function resetForm() {
 
           <q-input
             filled
-            v-model="inputStart"
+            v-model="editFormFields.start"
             mask="time"
             :rules="[EventValidator.requiredRule, EventValidator.timeRule]"
           >
@@ -89,7 +97,7 @@ function resetForm() {
                   transition-show="scale"
                   transition-hide="scale"
                 >
-                  <q-time v-model="inputStart" format24h>
+                  <q-time v-model="editFormFields.start" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -101,7 +109,7 @@ function resetForm() {
 
           <q-input
             filled
-            v-model="inputEnd"
+            v-model="editFormFields.end"
             mask="time"
             :rules="[EventValidator.requiredRule, EventValidator.timeRule]"
           >
@@ -112,7 +120,7 @@ function resetForm() {
                   transition-show="scale"
                   transition-hide="scale"
                 >
-                  <q-time v-model="inputEnd" format24h>
+                  <q-time v-model="editFormFields.end" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
