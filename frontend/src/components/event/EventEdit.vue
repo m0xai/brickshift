@@ -2,7 +2,6 @@
 import { ref, defineProps } from "vue";
 import * as EventValidator from "src/services/validators/event-validator"
 
-const persistent = ref(false);
 
 defineOptions({ name: "EventEdit" });
 
@@ -13,6 +12,7 @@ const inputDescription = ref("");
 const inputDate = ref(new Date());
 const inputStart = ref("00:00:00");
 const inputEnd = ref("00:00");
+const isDialogOpen = ref(false);
 
 function setFieldValues() {
   inputName.value = props.eventItem.name;
@@ -32,10 +32,10 @@ function resetForm() {
 </script>
 
 <template>
-  <q-btn fab-mini @click="persistent = true" icon="edit" />
+  <q-btn fab-mini flat @click="isDialogOpen = true" icon="edit" />
 
   <q-dialog
-    v-model="persistent"
+    v-model="isDialogOpen"
     persistent
     transition-show="scale"
     transition-hide="scale"
