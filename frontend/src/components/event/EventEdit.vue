@@ -1,17 +1,16 @@
 <script setup>
 import { ref, defineProps } from "vue";
 import * as EventValidator from "src/services/validators/event-validator"
-
+import { QForm, useQuasar } from "quasar";
+import { api } from "boot/axios";
 
 defineOptions({ name: "EventEdit" });
-
+const emit = defineEmits(["updateEvent"])
 const props = defineProps({ eventItem: {} });
 
-const inputName = ref("");
-const inputDescription = ref("");
-const inputDate = ref(new Date());
-const inputStart = ref("00:00:00");
-const inputEnd = ref("00:00");
+const $q = useQuasar();
+
+const qform = ref(null);
 const isDialogOpen = ref(false);
 
 const editFormFields = ref({
@@ -35,6 +34,22 @@ function resetForm() {
   editFormFields.value.date = new Date();
   editFormFields.value.start = "00:00:00";
   editFormFields.value.end = "00:00";
+}
+
+async function handleEventUpdate() {
+  const isValid = await qform.value?.validate();
+  if(isValid) {
+    api.put("calgen/events/" + props.eventItem.id + "/", {...editFormFields.value}).then((response) => {
+      emit("updateEvent", props.eventItem.id, editFormFields.value)
+      $q.notify({message: "Schicht successfully updated.", position: "top-right", color: "positive"})
+      isDialogOpen.value = false;
+    }).catch((err) => {
+      $q.notify({message: "Task update failed: " + err.message, position: "top-right", color: "negative"})
+    })
+  } else {
+    $q.notify({message: "Task update failed: Please ensure that all fields contain valid information.", position: "top-right",
+      color: "negative"})
+  }
 }
 
 </script>
@@ -134,7 +149,7 @@ function resetForm() {
 
       <q-card-actions class="flex justify-between q-mx-sm">
         <q-btn flat label="Cancel" class="" color="primary" v-close-popup />
-        <q-btn label="Save" color="primary" class="text-primary" />
+        <q-btn label="Save" color="primary" class="text-primary" @click="handleEventUpdate()"/>
       </q-card-actions>
     </q-card>
   </q-dialog>
