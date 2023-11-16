@@ -17,10 +17,9 @@ import { api } from "src/boot/axios";
 defineComponent({name: "IndexPage"})
 
 function handlePushEvent(input) {
-  events.value.push(input)
     api.post("calgen/events/", input)
         .then((resp) => {
-          console.log("Event saved: ", input)
+          events.value.push(input)
         })
 }
 
