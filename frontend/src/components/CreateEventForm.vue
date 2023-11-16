@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { data } from "autoprefixer";
+import * as EventValidator from "src/services/validators/event-validator";
 
 defineProps({
   events: {
@@ -40,7 +40,9 @@ const emit = defineEmits(["pushEvent"])
       label="Employee Name"
       :rules="[val => !!val || 'Field is required']"
     />
-    <q-input filled v-model="date"  label="Date">
+    <q-input filled v-model="date"  label="Date"
+             :rules="[EventValidator.requiredRule, EventValidator.dayRule]"
+    >
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -54,7 +56,7 @@ const emit = defineEmits(["pushEvent"])
       </template>
     </q-input>
 
-    <q-input filled v-model="start" mask="time" :rules="['time']" label="Start">
+    <q-input filled v-model="start" mask="time" :rules="[EventValidator.requiredRule, EventValidator.timeRule]" label="Start">
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -68,7 +70,7 @@ const emit = defineEmits(["pushEvent"])
       </template>
     </q-input>
 
-    <q-input filled v-model="end" mask="time" :rules="['time']" label="End">
+    <q-input filled v-model="end" mask="time" :rules="[EventValidator.requiredRule, EventValidator.timeRule]" label="End">
       <template v-slot:append>
         <q-icon name="access_time" class="cursor-pointer">
           <q-popup-proxy cover transition-show="scale" transition-hide="scale">
