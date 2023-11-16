@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center column">
     <create-event-form @pushEvent="handlePushEvent($event)" :events="events" />
-    <event-table @deleteEvent="handleEventDelete($event)" :events="events" />
+    <event-table @updateEvent="handleEventUpdate" @deleteEvent="handleEventDelete($event)" :events="events" />
     <q-btn @click="handleEventFeedDownload" color="primary" class="q-mt-md" :disable="!events.length > 0">Download
       Calendar (
       .ics)</q-btn>
@@ -23,6 +23,14 @@ function handlePushEvent(input) {
         })
 }
 
+function handleEventUpdate(id, eventItem) {
+  const eventIndexToUpdate = events.value.findIndex(v => v.id === id);
+  events.value[eventIndexToUpdate] = {...eventItem}
+}
+
+function handleEventDelete(event) {
+  events.value = events.value.filter(v => v.id !== event.id)
+}
 
 const events = ref([])
 
@@ -34,9 +42,6 @@ onMounted(() => {
 })
 
 
-function handleEventDelete(event) {
-    events.value = events.value.filter(v => v.id !== event.id)
-}
 
 function handleEventFeedDownload() {
   if(!events.value.length > 0) {
