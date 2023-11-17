@@ -30,13 +30,13 @@ function handlePushEvent(input) {
 	});
 }
 
-function handleEventUpdate(id, eventItem) {
-	const eventIndexToUpdate = events.value.findIndex((v) => v.id === id);
+function handleEventUpdate(eventItem) {
+	const eventIndexToUpdate = events.value.findIndex((v) => v.id === eventItem.id);
 	events.value[eventIndexToUpdate] = { ...eventItem };
 }
 
-function handleEventDelete(event) {
-	events.value = events.value.filter((v) => v.id !== event.id);
+function handleEventDelete($event) {
+	events.value = events.value.filter((v) => v.id !== $event.id);
 }
 
 const events = ref([]);

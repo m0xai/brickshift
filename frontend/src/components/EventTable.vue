@@ -32,9 +32,9 @@ function handleEventDelete(event) {
 	});
 }
 
-function handleEventUpdate(id, eventItem) {
+function handleEventUpdate(eventItem) {
 	// Just forward updated event to parent
-	emit("updateEvent", id, eventItem);
+	emit("updateEvent", eventItem);
 }
 </script>
 

@@ -14,6 +14,7 @@ const qform = ref(null);
 const isDialogOpen = ref(false);
 
 const editFormFields = ref({
+	id: 0,
 	name: "",
 	description: "",
 	date: new Date(),
@@ -22,6 +23,7 @@ const editFormFields = ref({
 });
 
 function setFieldValues() {
+	editFormFields.value.id = props.eventItem.id;
 	editFormFields.value.name = props.eventItem.name;
 	editFormFields.value.description = props.eventItem.description;
 	editFormFields.value.date = props.eventItem.date;
@@ -30,6 +32,7 @@ function setFieldValues() {
 }
 
 function resetForm() {
+	editFormFields.value.id = 0;
 	editFormFields.value.name = "";
 	editFormFields.value.description = "";
 	editFormFields.value.date = new Date();
@@ -41,9 +44,9 @@ async function handleEventUpdate() {
 	const isValid = await qform.value?.validate();
 	if (isValid) {
 		api
-			.put("calgen/events/" + props.eventItem.id + "/", { ...editFormFields.value })
+			.put("calgen/events/" + editFormFields.value.id + "/", { ...editFormFields.value })
 			.then((response) => {
-				emit("updateEvent", props.eventItem.id, editFormFields.value);
+				emit("updateEvent", editFormFields.value);
 				$q.notify({
 					message: "Schicht successfully updated.",
 					position: "top-right",
