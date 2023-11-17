@@ -33,6 +33,13 @@ function submitLogin() {
 					position: "top-right",
 					color: "positive",
 				});
+			})
+			.catch((err) => {
+				$q.notify({
+					message: "Username or password incorrect",
+					position: "top-right",
+					color: "negative",
+				});
 			});
 	}
 }
@@ -42,16 +49,33 @@ function submitLogin() {
 	<q-layout view="lHh Lpr lFf">
 		<div class="flex flex-center window-height">
 			<q-card class="login-wrapper">
-				<h2 class="text-h2">Login</h2>
 				<q-card-section>
+					<h2 class="text-h2 q-mb-lg q-mt-md">Login</h2>
 					<q-form>
-						<q-input v-model="username" label="Username" class="q-my-md" />
-						<q-input v-model="password" type="password" label="Password" class="q-my-md" />
+						<q-input
+							v-model="username"
+							label="Username"
+							:rules="[(val) => !!val || 'This field is required']"
+							class="q-my-md"
+						/>
+						<q-input
+							v-model="password"
+							type="password"
+							label="Password"
+							:rules="[(val) => !!val || 'This field is required']"
+							class="q-my-md"
+						/>
 					</q-form>
 					<a href="#" class="q-my-md text-primary">Password Vergessen?</a>
 					<q-card-actions class="q-my-lg">
-						<q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-						<q-btn label="Submit" type="submit" color="primary" @click="submitLogin" />
+						<q-btn
+							label="Login"
+							:disable="username.length == 0 || password.length == 0"
+							type="submit"
+							color="primary"
+							class="full-width"
+							@click="submitLogin"
+						/>
 					</q-card-actions>
 				</q-card-section>
 			</q-card>
