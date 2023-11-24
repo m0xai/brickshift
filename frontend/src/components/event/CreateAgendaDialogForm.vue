@@ -2,13 +2,6 @@
 import { ref } from "vue";
 import * as EventValidator from "src/services/validators/event-validator";
 
-defineProps({
-	events: {
-		type: Array,
-		required: true,
-	},
-});
-
 function handleCreateEvent() {
 	// Emit values to parent
 	const event = {
