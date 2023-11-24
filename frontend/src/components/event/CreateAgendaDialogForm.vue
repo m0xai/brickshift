@@ -22,7 +22,7 @@ const emit = defineEmits(["pushEvent"]);
 </script>
 
 <template>
-	<q-form class="flex" @submit="handleCreateEvent">
+	<q-form class="flex column" @submit="handleCreateEvent">
 		<q-input
 			v-model="name"
 			:rules="[(val) => !!val || 'Field is required']"
@@ -88,9 +88,9 @@ const emit = defineEmits(["pushEvent"]);
 			</template>
 		</q-input>
 
-		<div>
+		<div class="flex justify-end">
+			<q-btn class="q-mr-md" flat label="Reset" type="reset" />
 			<q-btn color="primary" label="Submit" type="submit" />
-			<q-btn class="q-ml-sm" color="primary" flat label="Reset" type="reset" />
 		</div>
 	</q-form>
 </template>
