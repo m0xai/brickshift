@@ -1,26 +1,37 @@
 <template>
 	<q-page class="flex flex-center column">
-		<create-event-form :events="events" @pushEvent="handlePushEvent($event)" />
-		<event-table
-			:events="events"
-			@deleteEvent="handleEventDelete($event)"
-			@updateEvent="handleEventUpdate"
-		/>
-		<q-btn
-			:disable="!events.length > 0"
-			class="q-mt-md"
-			color="primary"
-			@click="handleEventFeedDownload"
-			>Download Calendar ( .ics)
-		</q-btn>
+		<q-card>
+			<q-card-section>
+				<h4 class="text-h4">Schichtplan</h4>
+				<p>
+					All shift schedules are displayed in the table below. To add a new shift schedule, please
+					utilize the form above. If you wish to delete a schedule, simply click on the trash icon
+					located on the right side of a shift entry.
+				</p>
+				<CreateAgendaDialog />
+			</q-card-section>
+			<event-table
+				:events="events"
+				@deleteEvent="handleEventDelete($event)"
+				@updateEvent="handleEventUpdate"
+			/>
+			<q-btn
+				:disable="!events.length > 0"
+				class="q-mt-md"
+				color="primary"
+				@click="handleEventFeedDownload"
+				>Download Calendar ( .ics)
+			</q-btn>
+		</q-card>
 	</q-page>
 </template>
 
 <script setup>
 import { defineComponent, onMounted, ref } from "vue";
 import EventTable from "components/EventTable.vue";
-import CreateEventForm from "components/CreateEventForm.vue";
+import CreateEventForm from "components/event/CreateAgendaDialogForm.vue";
 import { api } from "src/boot/axios";
+import CreateAgendaDialog from "components/event/CreateAgendaDialog.vue";
 
 defineComponent({ name: "IndexPage" });
 
