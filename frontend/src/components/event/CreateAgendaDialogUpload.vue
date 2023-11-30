@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from "vue";
+import { useQuasar } from "quasar";
+import { api } from "boot/axios";
 
+const $q = useQuasar();
 const imageObj = ref(null);
 
 const previewImageUrl = ref("");
@@ -16,6 +19,26 @@ function imageUploadChange(image) {
 	}
 }
 
+function submitImagePlan() {
+	if (!imageObj.value) {
+		$q.notify({ message: "Please select a valid file to upload", color: "negative" });
+	}
+	const form = new FormData();
+	form.append("image", imageObj.value);
+	// TODO: set this fields by user's current calendar week page
+	form.append("year", 2023);
+	form.append("calendar_week", 31);
+
+	api
+		.post("/ki/upload/", form)
+		.then((response) => {
+			console.log(response);
+		})
+		.catch((err) => {
+			console.error("Fehler: ", err);
+		});
+}
+
 function clearImageUploadInput() {
 	previewImageUrl.value = "";
 	imageObj.value = null;
@@ -28,24 +51,24 @@ function clearImageUploadInput() {
 		<q-form>
 			<q-file
 				v-model="imageObj"
-				label="Pick photo to scan for weekly schedule"
-				filled
-				counter
 				:counter-label="counterLabelFn"
-				hint="Allowed types are: jpg, jpeg, png, heif, webp and max filesize is 40MB"
-				@update:model-value="imageUploadChange"
 				clearable
+				counter
+				filled
+				hint="Allowed types are: jpg, jpeg, png, heif, webp and max filesize is 40MB"
+				label="Pick photo to scan for weekly schedule"
 				@clear="clearImageUploadInput"
+				@update:model-value="imageUploadChange"
 			>
 				<template v-slot:prepend>
 					<q-icon name="attach_file" />
 				</template>
 			</q-file>
 		</q-form>
-		<q-img v-if="previewImageUrl" class="q-mt-md" :src="previewImageUrl" spinner-color="blue" />
+		<q-img v-if="previewImageUrl" :src="previewImageUrl" class="q-mt-md" spinner-color="blue" />
 		<div v-if="previewImageUrl" class="flex justify-end q-mt-lg">
-			<q-btn flat color="danger" class="q-mr-md" label="Reset" @click="clearImageUploadInput" />
-			<q-btn color="primary" icon="cloud_upload" label="Send" />
+			<q-btn class="q-mr-md" color="danger" flat label="Reset" @click="clearImageUploadInput" />
+			<q-btn color="primary" icon="cloud_upload" label="Send" @click="submitImagePlan" />
 		</div>
 	</div>
 </template>
