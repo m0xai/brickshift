@@ -43,6 +43,14 @@ function clearImageUploadInput() {
 	previewImageUrl.value = "";
 	imageObj.value = null;
 }
+
+function showRejectedError() {
+	$q.notify({
+		color: "negative",
+		position: "top-right",
+		message: "The file you choose is not suitable for upload.",
+	});
+}
 </script>
 
 <template>
@@ -52,12 +60,15 @@ function clearImageUploadInput() {
 			<q-file
 				v-model="imageObj"
 				:counter-label="counterLabelFn"
+				accept=".jpg, image/*"
 				clearable
 				counter
 				filled
 				hint="Allowed types are: jpg, jpeg, png, heif, webp and max filesize is 40MB"
 				label="Pick photo to scan for weekly schedule"
+				max-file-size="41943040"
 				@clear="clearImageUploadInput"
+				@rejected="showRejectedError"
 				@update:model-value="imageUploadChange"
 			>
 				<template v-slot:prepend>
