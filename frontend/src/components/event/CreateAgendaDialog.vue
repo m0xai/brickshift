@@ -17,8 +17,10 @@ const tab = ref("upload");
 
 	<q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
 		<q-card style="min-width: 600px">
-			<q-card-section>
+			<q-card-section class="row items-center">
 				<div class="text-h6">Upload Agenda / Create Event</div>
+				<q-space />
+				<q-btn icon="close" flat round dense v-close-popup />
 			</q-card-section>
 
 			<q-card-section class="q-pt-none">

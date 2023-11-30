@@ -26,7 +26,7 @@ const emit = defineEmits(["pushEvent"]);
 		<q-input
 			v-model="name"
 			:rules="[(val) => !!val || 'Field is required']"
-			fill
+			filled
 			label="Employee Name"
 		/>
 		<q-input
@@ -90,7 +90,7 @@ const emit = defineEmits(["pushEvent"]);
 
 		<div class="flex justify-end">
 			<q-btn class="q-mr-md" flat label="Reset" type="reset" />
-			<q-btn color="primary" label="Submit" type="submit" />
+			<q-btn color="primary" icon="send" label="Send" type="submit" />
 		</div>
 	</q-form>
 </template>
