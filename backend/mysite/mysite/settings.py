@@ -10,11 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Initialise environment variables
+env = environ.Env()
+
+environ.Env.read_env()
+
+# Get environment variables
+CV_PREDICTION_ENDPOINT = env("PREDICTION_ENDPOINT")
+CV_PREDICTION_KEY = env("PREDICTION_KEY")
+CV_PROJECT_ID = env("PROJECT_ID")
+CV_MODEL_NAME = env("MODEL_NAME")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
