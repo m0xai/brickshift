@@ -15,14 +15,14 @@ files = [
 tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
-name = "azure-cognitiveservices-vision-computervision"
-version = "0.9.0"
-description = "Microsoft Azure Cognitive Services Computer Vision Client Library for Python"
+name = "azure-cognitiveservices-vision-customvision"
+version = "3.1.0"
+description = "Microsoft Azure Custom Vision Client Library for Python"
 optional = false
 python-versions = "*"
 files = [
-    {file = "azure-cognitiveservices-vision-computervision-0.9.0.zip", hash = "sha256:26c28828786d6e57ab5a4bc6b9e787a2a653ad1ad3ec0a46ce15f70d800286c2"},
-    {file = "azure_cognitiveservices_vision_computervision-0.9.0-py2.py3-none-any.whl", hash = "sha256:a36b4725b9a159311a34864399d10c9daae295df52e029e806aeddef350ddb5a"},
+    {file = "azure-cognitiveservices-vision-customvision-3.1.0.zip", hash = "sha256:89134e3fac1b3fff41666cc84a8364de5a072ee4cb7860669dc9b25acdd0257c"},
+    {file = "azure_cognitiveservices_vision_customvision-3.1.0-py2.py3-none-any.whl", hash = "sha256:32f4c764a9480b62eec211459d312a389a269d997b127fc88a2c2314a3adeac4"},
 ]
 
 [package.dependencies]
@@ -203,6 +203,22 @@ files = [
 [package.dependencies]
 asgiref = ">=3.6"
 Django = ">=3.2"
+
+[[package]]
+name = "django-environ"
+version = "0.11.2"
+description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
+optional = false
+python-versions = ">=3.6,<4"
+files = [
+    {file = "django-environ-0.11.2.tar.gz", hash = "sha256:f32a87aa0899894c27d4e1776fa6b477e8164ed7f6b3e410a62a6d72caaf64be"},
+    {file = "django_environ-0.11.2-py2.py3-none-any.whl", hash = "sha256:0ff95ab4344bfeff693836aa978e6840abef2e2f1145adff7735892711590c05"},
+]
+
+[package.extras]
+develop = ["coverage[toml] (>=5.0a4)", "furo (>=2021.8.17b43,<2021.9.dev0)", "pytest (>=4.6.11)", "sphinx (>=3.5.0)", "sphinx-notfound-page"]
+docs = ["furo (>=2021.8.17b43,<2021.9.dev0)", "sphinx (>=3.5.0)", "sphinx-notfound-page"]
+testing = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)"]
 
 [[package]]
 name = "django-ical"
@@ -526,4 +542,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "bb4105089cbcb61c5273fd854561152db267bac8473680f4e5bc5b71dd10a243"
+content-hash = "bda513396471fbaec440698812bbf8550a09120bedfa54fcd695ef7d4b918ec8"
