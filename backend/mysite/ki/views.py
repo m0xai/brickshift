@@ -20,6 +20,11 @@ class WeekPlanViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Ret
     queryset = WeekPlan.objects.all()
     serializer_class = WeekPlanSerializer
 
+    def create(self, request, *args, **kwargs):
+        prediction_data = self.send_ai_req(request.FILES['image'])
+        serializer = PredictionSerializer(data=prediction_data, many=True)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def send_ai_req(self, image):
         credentials = ApiKeyCredentials(in_headers={"Prediction-key": settings.CV_PREDICTION_KEY})
@@ -37,3 +42,8 @@ class WeekPlanViewSet(mixins.ListModelMixin, mixins.CreateModelMixin, mixins.Ret
 
         return prediction_results
 
+
+class PredictionSerializer(serializers.Serializer):
+    tag_id = serializers.CharField()
+    tag_name = serializers.CharField()
+    probability = serializers.CharField()
