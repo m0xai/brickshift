@@ -19,6 +19,8 @@ function imageUploadChange(image) {
 	}
 }
 
+const predictions_response = ref([]);
+
 function submitImagePlan() {
 	if (!imageObj.value) {
 		$q.notify({ message: "Please select a valid file to upload", color: "negative" });
@@ -33,11 +35,19 @@ function submitImagePlan() {
 		.post("/ki/upload/", form)
 		.then((response) => {
 			console.log(response);
+			predictions_response.value = response.data;
+			previewImageUrl.value = "";
 		})
 		.catch((err) => {
 			console.error("Fehler: ", err);
 		});
 }
+
+const resultCols = [
+	{ name: "tag_id", label: "ID", field: "tag_id", align: "left" },
+	{ name: "tag_name", label: "Tag Name", field: "tag_name", align: "left" },
+	{ name: "probability", label: "Probability", field: "probability", align: "left" },
+];
 
 function clearImageUploadInput() {
 	previewImageUrl.value = "";
@@ -81,5 +91,12 @@ function showRejectedError() {
 			<q-btn class="q-mr-md" color="danger" flat label="Reset" @click="clearImageUploadInput" />
 			<q-btn color="primary" icon="cloud_upload" label="Send" @click="submitImagePlan" />
 		</div>
+		<q-table
+			v-if="!previewImageUrl && predictions_response"
+			:cols="resultCols"
+			:pagination="{ rowsPerPage: 10 }"
+			:rows="predictions_response"
+			row-key="tag_id"
+		></q-table>
 	</div>
 </template>
