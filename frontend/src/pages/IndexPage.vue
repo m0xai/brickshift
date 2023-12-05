@@ -29,7 +29,6 @@
 <script setup>
 import { defineComponent, onMounted, ref } from "vue";
 import EventTable from "components/EventTable.vue";
-import CreateEventForm from "components/event/CreateAgendaDialogForm.vue";
 import { api } from "src/boot/axios";
 import CreateAgendaDialog from "components/event/CreateAgendaDialog.vue";
 
@@ -66,7 +65,7 @@ function handleEventFeedDownload() {
 	const method = "GET";
 	const url = "http://localhost:8000/calgen/latest/feed.ics";
 	const fileName = `feed_${new Date().toISOString()}.ics`;
-	axios
+	api
 		.request({
 			url,
 			method,
