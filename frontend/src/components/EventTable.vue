@@ -1,6 +1,7 @@
 <script setup>
 import { api } from "src/boot/axios";
 import EventEdit from "components/event/EventEdit.vue";
+import { lightFormat } from "date-fns";
 
 const columns = [
 	{ name: "details", label: "Details", align: "center" },
@@ -53,12 +54,17 @@ function handleEventUpdate(eventItem) {
 							@click="props.expand = !props.expand"
 						/>
 					</q-td>
-					<q-td
-						v-for="col in props.cols.filter((v) => v.name !== 'details' && v.name !== 'actions')"
-						:key="col.name"
-						:props="props"
-					>
-						{{ col.value }}
+					<q-td key="name" :props="props">
+						{{ props.row.name }}
+					</q-td>
+					<q-td key="date" :props="props">
+						{{ lightFormat(new Date(props.row.date), "dd-MM-yyyy") }}
+					</q-td>
+					<q-td key="start" :props="props">
+						{{ props.row.start }}
+					</q-td>
+					<q-td key="end" :props="props">
+						{{ props.row.end }}
 					</q-td>
 					<q-td key="actions" :props="props">
 						<EventEdit :event-item="props.row" @updateEvent="handleEventUpdate" />
