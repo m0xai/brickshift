@@ -1,17 +1,19 @@
 import datetime
 from django.http import HttpResponse
 from django_ical.views import ICalFeed
-from rest_framework import generics, status, mixins
+from rest_framework import generics, status, mixins, viewsets
 from rest_framework.response import Response
 
-from .models import Event
-from .serializers import EventSerializer
+from .models import Event, CalenderWeek
+from .serializers import EventSerializer, CalenderWeekSerializer
 
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("Hello World")
+class CalenderWeekViewsSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+
+    queryset = CalenderWeek.objects.all()
+    serializer_class = CalenderWeekSerializer
 
 class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.all()
