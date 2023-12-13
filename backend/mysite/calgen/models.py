@@ -8,11 +8,13 @@ from recurrence.fields import RecurrenceField
 class BasicModel(models.Model):
     name = models.CharField(max_length=255)
 
+
 class CalenderWeek(models.Model):
     year = models.IntegerField()
     number = models.IntegerField()
     start = models.DateField()
     end = models.DateField()
+
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
@@ -25,4 +27,3 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
-

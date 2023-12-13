@@ -1,5 +1,5 @@
 import datetime
-from django.http import HttpResponse
+
 from django_ical.views import ICalFeed
 from rest_framework import generics, status, mixins, viewsets
 from rest_framework.response import Response
@@ -10,18 +10,28 @@ from .serializers import EventSerializer, CalenderWeekSerializer
 
 # Create your views here.
 
-class CalenderWeekViewsSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
 
+class CalenderWeekViewsSet(
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.ListModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = CalenderWeek.objects.all()
     serializer_class = CalenderWeekSerializer
+
 
 class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+
 class EventViewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+
 
 class EventViewBulk(generics.ListCreateAPIView):
     queryset = Event.objects.all()
@@ -37,17 +47,17 @@ class EventViewBulk(generics.ListCreateAPIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class EventFeed(ICalFeed):
     """
-    A simple event calender
+    A simple event calendar
     """
-    product_id = '-//example.com//Example//EN'
-    timezone = 'UTC'
+
+    product_id = "-//example.com//Example//EN"
+    timezone = "UTC"
     file_name = "event.ics"
 
     def items(self):
-        return Event.objects.all().order_by('-date')
+        return Event.objects.all().order_by("-date")
 
     def item_guid(self, item):
         return "{}{}".format(item.id, "global_name")

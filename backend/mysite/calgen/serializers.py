@@ -11,6 +11,7 @@ class CalenderWeekSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     week = CalenderWeekSerializer
+
     class Meta:
         model = Event
         fields = ["id", "name", "description", "date", "start", "end", "week"]
