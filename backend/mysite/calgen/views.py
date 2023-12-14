@@ -27,6 +27,19 @@ class EventList(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
 
+    def list(self, request, *args, **kwargs):
+        week_id = request.GET.get("weekId")
+        if week_id:
+            week = CalendarWeek.objects.filter(pk=week_id)
+            if not week:
+                return Response(
+                    data={"message": f"Week with id: {week_id} not found"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            items = Event.objects.filter(week__id=week_id)
+            serializer = EventSerializer(items, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class EventViewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Event.objects.all()
