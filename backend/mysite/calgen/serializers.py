@@ -1,16 +1,16 @@
 from rest_framework import serializers
 
-from .models import Event, CalenderWeek
+from .models import Event, CalendarWeek
 
 
-class CalenderWeekSerializer(serializers.ModelSerializer):
+class CalendarWeekSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CalenderWeek
+        model = CalendarWeek
         fields = ["id", "year", "number", "start", "end"]
 
 
 class EventSerializer(serializers.ModelSerializer):
-    week = CalenderWeekSerializer
+    week = CalendarWeekSerializer
 
     class Meta:
         model = Event

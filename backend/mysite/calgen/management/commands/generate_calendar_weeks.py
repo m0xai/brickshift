@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from django.core.management.base import BaseCommand
 
-from ...models import CalenderWeek
+from ...models import CalendarWeek
 
 
 class Command(BaseCommand):
@@ -35,7 +35,7 @@ class Command(BaseCommand):
             end_of_week = start_of_week + timedelta(days=6)
 
             # Save the calendar week to the database
-            CalenderWeek.objects.create(
+            CalendarWeek.objects.create(
                 year=year, number=current_week, start=start_of_week, end=end_of_week
             )
 

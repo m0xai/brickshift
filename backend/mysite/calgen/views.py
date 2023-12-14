@@ -4,8 +4,8 @@ from django_ical.views import ICalFeed
 from rest_framework import generics, status, mixins, viewsets
 from rest_framework.response import Response
 
-from .models import Event, CalenderWeek
-from .serializers import EventSerializer, CalenderWeekSerializer
+from .models import Event, CalendarWeek
+from .serializers import EventSerializer, CalendarWeekSerializer
 
 
 # Create your views here.
@@ -19,8 +19,8 @@ class CalenderWeekViewsSet(
     mixins.ListModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = CalenderWeek.objects.all()
-    serializer_class = CalenderWeekSerializer
+    queryset = CalendarWeek.objects.all()
+    serializer_class = CalendarWeekSerializer
 
 
 class EventList(generics.ListCreateAPIView):
