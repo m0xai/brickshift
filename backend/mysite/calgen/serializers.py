@@ -4,6 +4,9 @@ from .models import Event, CalendarWeek
 
 
 class CalendarWeekSerializer(serializers.ModelSerializer):
+    start = serializers.DateField()
+    end = serializers.DateField()
+
     class Meta:
         model = CalendarWeek
         fields = ["id", "year", "number", "start", "end"]
@@ -11,6 +14,9 @@ class CalendarWeekSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     week = CalendarWeekSerializer
+    date = serializers.DateField()
+    start = serializers.TimeField()
+    end = serializers.TimeField()
 
     class Meta:
         model = Event
