@@ -19,7 +19,7 @@ function imageUploadChange(image) {
 	}
 }
 
-const predictions_response = ref([]);
+const predictions_response = ref(null);
 
 function submitImagePlan() {
 	if (!imageObj.value) {
@@ -52,6 +52,7 @@ const resultCols = [
 function clearImageUploadInput() {
 	previewImageUrl.value = "";
 	imageObj.value = null;
+	predictions_response.value = null;
 }
 
 function showRejectedError() {
