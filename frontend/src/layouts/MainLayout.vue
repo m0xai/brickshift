@@ -6,6 +6,7 @@ import { api } from "src/boot/axios";
 import LogoutBtn from "components/LogoutBtn.vue";
 import { useQuasar } from "quasar";
 import { useSettingsStore } from "stores/settings";
+import AppSidebar from "components/sidebar/AppSidebar.vue";
 
 const $q = useQuasar();
 const router = useRouter();
@@ -54,7 +55,7 @@ const modeSwitchIcon = computed(() => {
 			<q-toolbar>
 				<q-btn aria-label="Menu" dense flat icon="menu" round @click="toggleLeftDrawer" />
 
-				<q-toolbar-title> BrickShift </q-toolbar-title>
+				<q-toolbar-title> BrickShift</q-toolbar-title>
 
 				<div>
 					<LogoutBtn />
@@ -63,18 +64,11 @@ const modeSwitchIcon = computed(() => {
 			</q-toolbar>
 		</q-header>
 
-		<q-drawer v-model="leftDrawerOpen" bordered show-if-above>
-			<q-list>
-				<q-item-label header> Essential Links </q-item-label>
-				<q-item clickable tag="a">
-					<q-item-section>
-						<q-item-label>Home</q-item-label>
-					</q-item-section>
-				</q-item>
-			</q-list>
+		<q-drawer v-model="leftDrawerOpen" bordered elevated persistent show-if-above side="left">
+			<AppSidebar />
 		</q-drawer>
 
-		<q-page-container>
+		<q-page-container class="q-ma-lg flex flex-center">
 			<router-view />
 		</q-page-container>
 	</q-layout>
