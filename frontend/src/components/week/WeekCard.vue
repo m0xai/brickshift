@@ -2,11 +2,36 @@
 import CreateAgendaDialog from "components/event/CreateAgendaDialog.vue";
 import EventTable from "components/EventTable.vue";
 import { api } from "boot/axios";
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref, watch } from "vue";
+import { useQuasar } from "quasar";
 
 defineComponent({ name: "WeekCard" });
 
 const props = defineProps({ weekId: Number });
+
+const { notify } = useQuasar();
+
+const events = ref([]);
+
+watch(
+	() => props.weekId,
+	(val) => {
+		api
+			.get("calgen/events/", { params: { weekId: val } })
+			.then((resp) => {
+				events.value = resp.data;
+			})
+			.catch((err) => {
+				console.log(err);
+				notify({
+					message:
+						"An error occurred while fetching week data. ERROR: " + err.response.data.message,
+					color: "negative",
+				});
+			});
+	},
+	{ immediate: true } // To get events on page load
+);
 
 function handlePushEvent(input) {
 	api.post("calgen/events/", input).then((resp) => {
