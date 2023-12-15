@@ -2,6 +2,10 @@
 import { ref } from "vue";
 import * as EventValidator from "src/services/validators/event-validator";
 
+const props = defineProps({
+	weekId: Number,
+});
+
 function handleCreateEvent() {
 	// Emit values to parent
 	const event = {
@@ -9,6 +13,7 @@ function handleCreateEvent() {
 		date: date.value,
 		start: start.value,
 		end: end.value,
+		week: props.weekId,
 	};
 	emit("pushEvent", event);
 }
