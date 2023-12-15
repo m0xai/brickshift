@@ -5,28 +5,38 @@ import CreateAgendaDialogUpload from "components/event/CreateAgendaDialogUpload.
 
 defineOptions({ name: "CreateAgendaDialog" });
 
+const props = defineProps({
+	weekId: Number,
+});
+
+const emit = defineEmits(["pushEvent"]);
+
 const persistent = ref(false);
 
 const tab = ref("upload");
+
+function handleEventCreate($event) {
+	console.log("E: ", $event);
+}
 </script>
 
 <template>
 	<div class="flex justify-end">
-		<q-btn label="Upload / Insert" color="primary" @click="persistent = true" />
+		<q-btn color="primary" label="Upload / Insert" @click="persistent = true" />
 	</div>
 
-	<q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
+	<q-dialog v-model="persistent" persistent transition-hide="scale" transition-show="scale">
 		<q-card style="min-width: 600px">
 			<q-card-section class="row items-center">
 				<div class="text-h6">Upload Agenda / Create Event</div>
 				<q-space />
-				<q-btn icon="close" flat round dense v-close-popup />
+				<q-btn v-close-popup dense flat icon="close" round />
 			</q-card-section>
 
 			<q-card-section class="q-pt-none">
-				<q-tabs v-model="tab" narrow-indicator dense align="justify" class="text-primary">
-					<q-tab :ripple="false" name="upload" icon="cloud_upload" label="Upload" />
-					<q-tab :ripple="false" name="form" icon="view_agenda" label="Form" />
+				<q-tabs v-model="tab" align="justify" class="text-primary" dense narrow-indicator>
+					<q-tab :ripple="false" icon="cloud_upload" label="Upload" name="upload" />
+					<q-tab :ripple="false" icon="view_agenda" label="Form" name="form" />
 				</q-tabs>
 				<q-tab-panels v-model="tab" animated>
 					<q-tab-panel name="upload">
@@ -34,7 +44,7 @@ const tab = ref("upload");
 					</q-tab-panel>
 
 					<q-tab-panel name="form">
-						<CreateAgendaDialogForm />
+						<CreateAgendaDialogForm :weekId="weekId" @pushEvent="emit('pushEvent', $event)" />
 					</q-tab-panel>
 				</q-tab-panels>
 			</q-card-section>
