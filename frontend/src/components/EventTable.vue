@@ -80,6 +80,12 @@ function handleEventUpdate(eventItem) {
 					</q-td>
 				</q-tr>
 			</template>
+			<template v-slot:no-data>
+				<div class="full-width row flex-center q-gutter-sm">
+					<q-icon name="warning" size="2em" />
+					<span>At this moment there isn't any shift planned.</span>
+				</div>
+			</template>
 		</q-table>
 	</div>
 </template>
