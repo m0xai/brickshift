@@ -7,7 +7,7 @@ import { useQuasar } from "quasar";
 
 defineComponent({ name: "WeekCard" });
 
-const props = defineProps({ weekId: Number });
+const props = defineProps({ weekId: Number, weekObj: Object });
 
 const { notify } = useQuasar();
 
@@ -35,7 +35,7 @@ watch(
 
 function handlePushEvent(input) {
 	api.post("calgen/events/", input).then((resp) => {
-		events.value.push(input);
+		events.value.push(resp.data);
 	});
 }
 
@@ -47,14 +47,6 @@ function handleEventUpdate(eventItem) {
 function handleEventDelete($event) {
 	events.value = events.value.filter((v) => v.id !== $event.id);
 }
-
-const events = ref([]);
-
-onMounted(() => {
-	api.get("calgen/events/").then((resp) => {
-		events.value = resp.data;
-	});
-});
 
 function handleEventFeedDownload() {
 	if (!events.value.length > 0) {
@@ -84,16 +76,16 @@ function handleEventFeedDownload() {
 
 <template>
 	<q-card>
-		<q-card-section>
-			<h4 class="text-h4 q-my-md">Schichtplan</h4>
-			<div class="text-subtitle1">09.11 - 15.11</div>
+		<q-card-section v-if="weekObj">
+			<h4 class="text-h4 q-my-md">Schichtplan (KW {{ weekObj.number }})</h4>
+			<div class="text-subtitle1">{{ weekObj.start }} - {{ weekObj.end }}</div>
 			<p>
 				Alle Schichtpläne sind in der folgenden Tabelle aufgeführt. Um einen neuen Schichtplan
 				hinzuzufügen, nutzen Sie bitte das obenstehende Formular. Wenn Sie einen Plan löschen
 				möchten, klicken Sie einfach auf das Mülleimersymbol auf der rechten Seite eines
 				Schichteintrags.
 			</p>
-			<CreateAgendaDialog />
+			<CreateAgendaDialog :weekId="weekId" @pushEvent="handlePushEvent" />
 		</q-card-section>
 		<event-table
 			:events="events"
@@ -101,11 +93,9 @@ function handleEventFeedDownload() {
 			@updateEvent="handleEventUpdate"
 		/>
 		<div class="q-my-md flex flex-center">
-			<q-btn :disable="false" color="primary" @click="handleEventFeedDownload"
+			<q-btn :disable="!events.length > 0" color="primary" @click="handleEventFeedDownload"
 				>Download Calendar ( .ics)
 			</q-btn>
 		</div>
 	</q-card>
 </template>
-
-<style scoped></style>
