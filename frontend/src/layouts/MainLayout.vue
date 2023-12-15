@@ -7,6 +7,7 @@ import LogoutBtn from "components/LogoutBtn.vue";
 import { useQuasar } from "quasar";
 import { useSettingsStore } from "stores/settings";
 import AppSidebar from "components/sidebar/AppSidebar.vue";
+import { useWeeksStore } from "stores/weeks";
 
 const $q = useQuasar();
 const router = useRouter();
@@ -47,6 +48,24 @@ onMounted(() => {
 const modeSwitchIcon = computed(() => {
 	return $q.dark.isActive ? "light_mode" : "dark_mode";
 });
+
+const weekStore = useWeeksStore();
+const weeks = ref([]);
+
+async function getWeeks() {
+	const response = await api.get("calgen/weeks/");
+
+	if (response.status !== 200) {
+		notify({ message: "An error occured while getting week data.", color: "negative" });
+	}
+
+	return response.data;
+}
+
+onMounted(() => {
+	weekStore.setWeeks(getWeeks());
+	weeks.value = weekStore.getWeeks();
+});
 </script>
 
 <template>
@@ -64,8 +83,16 @@ const modeSwitchIcon = computed(() => {
 			</q-toolbar>
 		</q-header>
 
-		<q-drawer v-model="leftDrawerOpen" bordered elevated persistent show-if-above side="left">
-			<AppSidebar />
+		<q-drawer
+			v-model="leftDrawerOpen"
+			:width="200"
+			bordered
+			elevated
+			persistent
+			show-if-above
+			side="left"
+		>
+			<AppSidebar :weeks="weeks" />
 		</q-drawer>
 
 		<q-page-container class="q-ma-lg flex flex-center">
