@@ -1,32 +1,34 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { api } from "boot/axios";
+import { ref, watch } from "vue";
 import { useQuasar } from "quasar";
 import { lightFormat, parseISO } from "date-fns";
 
 defineOptions({ name: "AppSidebar" });
+const props = defineProps({ weeks: Object });
 
 const { notify } = useQuasar();
 
 const today = new Date();
 const selectedYear = ref(today.getFullYear());
-const years = [2022, 2023, 2024, 2025];
-const weeks = ref([]);
+const years = [2023, 2024, 2025, 2026];
+const currentYearWeeks = ref([]);
 
-async function getWeeks() {
-	const response = await api.get("calgen/weeks/");
-
-	if (response.status !== 200) {
-		notify({ message: "An error occured while getting week data.", color: "negative" });
+watch(
+	() => [selectedYear.value, props.weeks],
+	() => {
+		setCurrentYearWeeks(props.weeks);
 	}
+);
 
-	weeks.value = response.data;
-	return response.data;
+function setCurrentYearWeeks(weeksList) {
+	if (weeksList.length === 0) {
+		notify({
+			message: "An error occurred while getting selected year's week list",
+			color: "negative",
+		});
+	}
+	currentYearWeeks.value = weeksList?.filter((v) => v.year === selectedYear.value);
 }
-
-onMounted(() => {
-	getWeeks();
-});
 </script>
 
 <template>
@@ -39,12 +41,18 @@ onMounted(() => {
 			standout="bg-teal text-white"
 		/>
 		<q-item-label header> Week List</q-item-label>
-		<q-item v-for="week in weeks" :key="week.id" clickable tag="a">
+		<q-item
+			v-for="week in currentYearWeeks"
+			:key="week.id"
+			:to="{ name: 'week', params: { id: week.id } }"
+			clickable
+			tag="a"
+		>
 			<q-item-section>
 				<q-item-label
 					><span class="text-bold">KW {{ week.number }}:</span>
-					{{ lightFormat(parseISO(week.start), "dd-MM") }} -
-					{{ lightFormat(parseISO(week.end), "dd-MM") }}
+					{{ lightFormat(parseISO(week.start), "dd.MM") }} -
+					{{ lightFormat(parseISO(week.end), "dd.MM") }}
 				</q-item-label>
 			</q-item-section>
 		</q-item>
